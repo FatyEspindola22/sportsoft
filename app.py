@@ -48,7 +48,7 @@ mysql = MySQL(app)
 #ventana principal de la app web
 @app.route('/')
 def home():
-    return render_template('view_login.html')
+    return render_template('index.html')
 
 #ruta para la vista login
 #funcion para acceder la vista login o inicio de sesion
@@ -58,7 +58,7 @@ def login_view():
 
 @app.route('/general_view')
 def general_view():
-    return render_template('index.html')
+    return render_template('view_principal.html')
 
 @app.route('/view_register')
 def view_register():
@@ -286,6 +286,7 @@ def logout():
 # Ruta para mostrar la página web
 #@app.route('/angulos')
 #def angulos():
+    
  #   return redirect(url_for('users_list'))
 
 
