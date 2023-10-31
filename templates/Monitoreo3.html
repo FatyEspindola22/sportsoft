@@ -1,0 +1,118 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grabar y Descargar Video</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-ml-7">
+            <div class="card border-light mb-3 mt-5">
+                <div class="card-body text-bg-active">
+                        
+                    <video id="video" width="700" height="600" autoplay></video>
+                    <div class="form-group">
+                        <button id="startRecord" class="btn btn-outline">Comenzar a Grabar</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button id="stopRecord" class="btn btn-outline" disabled>Detener la Grabación</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button id="downloadVideo" class="btn btn-outline" disabled>Descargar Video</button>
+                    </div>
+                    <form id="videoForm" method="post" enctype="multipart/form-data">
+                        <input type="file" name="video" accept="video/*" id="videoFile" style="display: none;">
+                    </form>                    
+                              
+                    <script>
+                        const videoElement = document.getElementById('video');
+                        const startButton = document.getElementById('startRecord');
+                        const stopButton = document.getElementById('stopRecord');
+                        const downloadButton = document.getElementById('downloadVideo');
+                        const videoFileInput = document.getElementById('videoFile');
+                        const userId = document.getElementById('userId').value;
+                        let mediaRecorder;  // Declarar mediaRecorder
+                        let recordedChunks = [];  // Declarar recordedChunks
+                    
+                        startButton.addEventListener('click', startRecording);
+                        stopButton.addEventListener('click', stopRecording);
+                        downloadButton.addEventListener('click', downloadVideo);
+                    
+                        async function startRecording() {
+                            try {
+                                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                                videoElement.srcObject = stream;
+                                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/mp4' }); // Cambiar el tipo de archivo a MP4
+                    
+                                mediaRecorder.ondataavailable = (event) => {
+                                    if (event.data.size > 0) {
+                                        recordedChunks.push(event.data);
+                                    }
+                                };
+                    
+                                mediaRecorder.onstop = () => {
+                                    downloadButton.disabled = false;
+                                };
+                    
+                                startButton.disabled = true;
+                                stopButton.disabled = false;
+                                mediaRecorder.start();
+                            } catch (error) {
+                                console.error('Error al acceder a la cámara: ', error);
+                            }
+                        }
+                    
+                        function stopRecording() {
+                            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                                mediaRecorder.stop();
+                                startButton.disabled = false;
+                                stopButton.disabled = true;
+                            }
+                        }
+                    
+                        function downloadVideo() {
+                            if (recordedChunks.length === 0) {
+                                return;
+                            }
+                            const blob = new Blob(recordedChunks, { type: 'video/mp4' }); // Cambiar el tipo de archivo a MP4
+                            const formData = new FormData();
+                            formData.append('userId', userId);
+                            formData.append('video', blob);
+                    
+                            // Realiza una solicitud POST al servidor para guardar el video
+                            fetch('/guardar_video', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => {
+                                if (response.status === 200) {
+                                    alert('Video guardado exitosamente');
+                                } else {
+                                    alert('Error al guardar el video');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error al guardar el video:', error);
+                            });
+                        }
+                    </script>
+                        <form action="/angulos" method="POST">
+                            <div class="form-group pt-5">
+                                <input class="hidden" type="hidden" id="userId" name="userId" value="{{ users.id_user }}" required>
+                                <input class="hidden" type="hidden" id="full_name" name="full_name" value="{{ users1.id_angles }}" required>
+                                <button type="submit" class="btn btn-outline-dark text-capitalize">
+                                    Comenzar monitoreo
+                                </button>
+                            </div>
+                        </form>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
+
+    <title>Sportsoft</title>
+</head>
+<body>
+    <div class="centered-content">
+        <div class="container " >
+            <div class="col-ml-7">
+                <div class="card border-light mb-3 mt-5">
+                    <div class="card-body text-bg-active">
+                        <img src="https://cdn-icons-png.flaticon.com/128/7615/7615901.png" class="mt-3 centered-image width="200" >
+                        <form action="/login" method="POST">
+                            <label for="txtEmail" class="form-label pt-5 text-capitalize">Ingrese su nombre de usuario</label>
+                            <input class="form-control " type="text" id="txtEmail" name="username" placeholder="Correo electronico" required>
+                            <label for="txtPassword" class="form-label pt-4 text-capitalize">Ingrese su contraseña</label>
+                            <input class="form-control" type="password" id="txtPassword" name="password" required>
+                            <div class="form-group pt-4 centered-button">
+                                <button type="submit" class="btn btn-dark text-capitalize" >
+                                    Sign In
+                                </button>
+                                <!-- <div>
+                                    <a href="/list_users" class="btn btn-outline-info mt-2"> Crear cuenta</a>
+                                </div> -->
+                            </div>
+                            
+                        </form>
+                    </div>
+                  </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
+        
+                <hr/>
+                
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .centered-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
+            margin: 0 auto; /* Centra horizontalmente el contenido */
+            height: 100vh; /* Esto centra verticalmente también */
+        }
+
+        .centered-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 300px; /* Ajusta el ancho máximo según tus necesidades */
+            margin: 0 auto; /* Centra horizontalmente el contenido */
+        }
+
+        .centered-image{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px; /* Ajusta el ancho máximo según tus necesidades */
+            margin: 0 auto; /* Centra horizontalmente el contenido */
+        }
+        
+    </style>    
+    
+</body>

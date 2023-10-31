@@ -1,0 +1,107 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+<div class="row">
+    <div class="col-ml-7">
+        <div class="card border-light mb-3 mt-5">
+            <div class="card-header">FORMULARIO DE REGISTRO</div>
+            {% if session['role']==2 %}
+            <div class="card border-light mb-3 mt-5 ">
+                <div class="card-body text-bg-active">
+                    <form action="/add_user1" method="POST">
+                        <label for="txtName" class="form-label text-capitalize">Ingrese nombre completo</label>
+                        <input class="form-control" type="text" id="txtName" name="full_name" placeholder="Nombre completo" required>
+    
+                        <label for="txtName" class="form-label text-capitalize">Ingrese nombre de usuario</label>
+                        <input class="form-control" type="text" id="txtName" name="username" placeholder="Nombre de usuario" required>
+    
+                        <label for="txtEmail" class="form-label pt-2 text-capitalize">Ingrese CI</label>
+                        <input class="form-control" type="text" id="txtEmail" name="ci" placeholder="Carnet Identidad" required>
+    
+                        <label for="txtEmail" class="form-label pt-2 text-capitalize">Ingrese fecha de nacimiento</label>
+                        <input class="form-control" type="date" id="txtEmail" name="birthdate" placeholder="fecha de nacimiento" required>
+    
+                        <label for="txtEmail" class="form-label pt-2 text-capitalize">Ingrese correo electronico</label>
+                        <input class="form-control" type="text" id="txtEmail" name="email" placeholder="Correo electronico" required>
+    
+                        <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese contraseña</label>
+                        <input class="form-control" type="password" id="txtPassword" name="password" required>
+    
+                        <select id="select1"name="role">
+                            <option value="" style="display:none">Seleccione rol</option>
+                           <option value="3">Paciente</option>
+                         </select>
+                        <div class="form-group pt-4">
+                            <button type="submit" class="btn btn-outline-dark text-capitalize" >
+                                Crear cuenta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            {% endif %}
+
+            <div class="card-body text-bg-active">
+                <form action="/add_patient" method="POST">
+                    <select class="form-control" id="selectUser" name="user_id_user" required onchange="updateSelectedValue()">
+                        <option value="" disabled selected>Seleccione un usuario</option>
+                        {% for user in users %}
+                            <option value="{{ user.id_user }}">{{user.id_user , user.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div>
+                        Valor Seleccionado: <span id="selectedValue"></span>
+                    </div>
+
+                    <input type="hidden" name="full_name">
+                    <input type="hidden" name="user_id_user">
+                    
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese el peso</label>
+                    <input class="form-control" type="text" id="txtPassword" name="weigth" required>
+
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese el altura</label>
+                    <input class="form-control" type="text" id="txtPassword" name="height" required>
+
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese longitud del tren superior</label>
+                    <input class="form-control" type="text" id="txtPassword" name="trensuperior" required>
+
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese longitud del tren inferior</label>
+                    <input class="form-control" type="text" id="txtPassword" name="treninferior" required>
+
+                    <div class="form-group pt-4">
+                        <button type="submit" class="btn btn-outline-dark text-capitalize">
+                            Crear Paciente
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <hr/>
+    </div>
+</div>
+
+<script>
+function updateSelectedValue() {
+    var select = document.getElementById("selectUser");
+    var selectedOption = select.options[select.selectedIndex];
+    var selectedValueSpan = document.getElementById("selectedValue");
+    selectedValueSpan.innerText = selectedOption.text;
+
+    // Actualizar los campos ocultos
+    var full_nameInput = document.getElementsByName("full_name")[0];
+    var selected_user_idInput = document.getElementsByName("selected_user_id")[0];
+    full_nameInput.value = selectedOption.text;
+    selected_user_idInput.value = selectedOption.value;
+}
+</script>
+{% endblock %}

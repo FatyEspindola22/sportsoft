@@ -1,0 +1,95 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+
+<div class="row">
+    <div class="col-ml-7">
+        <div class="card border-light mb-3 mt-5 ">
+            <div class="card-header">FORMULARIO DE REGISTRO</div>
+            <div class="card-body text-bg-active">
+                <form action="/add_employe" method="POST">
+                    <select class="form-control" id="selectUser" name="user_id_user" required onchange="updateSelectedValue()">
+                        <option value="" disabled selected>Seleccione un usuario</option>
+                        {% for user in users %}
+                            <option value="{{ user.id_user }}">{{user.id_user , user.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div>
+                        Valor Seleccionado: <span id="selectedValue"></span>
+                    </div>
+
+                    <input type="hidden" name="full_name">
+                    <input type="hidden" name="user_id_user">
+                    
+                    <label for="txtPassword" class="form-label pt-2 text-capitalize">Ingrese el puesto</label>
+                    <input class="form-control" type="text" id="txtPassword" name="position" required>
+
+                    
+
+                    <div class="form-group pt-4">
+                        <button type="submit" class="btn btn-outline-dark text-capitalize">
+                            Crear cuenta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <hr/>
+        {% if session['role']==2 %}
+        <div class="table-responsive-lg pt-4">
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Lista de registros</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Nombre</td>
+                        <td>ci</td>
+                        <td>position</td>
+                        <td>Fecha Registro</td>
+                        <td>Fecha Actualizacion</td>
+                        <td>Realizar Accion</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users: %}
+                    <tr>
+                        <td>{{ user.full_name}}</td>
+                        <td>{{ user.ci }}</td>
+                        <td>{{ user.position}}</td>
+                        <td>{{ user.date_register }}</td>
+                        <td>{{ user.date_update }}</td>
+                        <td>
+                            <a href="/delete/{{user.id_user}}" class="btn btn-outline-danger" >Eliminar</a>
+                            <a href="/get/{{user.id_user}}" class="btn btn-outline-success" >Modificar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    function updateSelectedValue() {
+        var select = document.getElementById("selectUser");
+        var selectedOption = select.options[select.selectedIndex];
+        var selectedValueSpan = document.getElementById("selectedValue");
+        selectedValueSpan.innerText = selectedOption.text;
+    
+        // Actualizar los campos ocultos
+        var full_nameInput = document.getElementsByName("full_name")[0];
+        var selected_user_idInput = document.getElementsByName("selected_user_id")[0];
+        full_nameInput.value = selectedOption.text;
+        selected_user_idInput.value = selectedOption.value;
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,306 @@
+{% extends 'layout_master.html' %}
+{% block body %}
+
+ <div class="row">
+    <div class="col-ml-7">
+        <div class="news_section layout_padding">
+            <div class="container">
+               <div class="news_section_2 layout_padding">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="box_main">
+                                <div    div class="icon_1"><img src="https://cdn-icons-png.flaticon.com/128/2860/2860901.png" class="mt-3 centered-image width="200" ></div>
+                                <h4 class="daily_text">Ejercicios  correctivos</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="box_main active">
+                                <div class="icon_1"><img src="https://cdn-icons-png.flaticon.com/128/2942/2942690.png" class="mt-3 centered-image width="200" ></div>
+                                <h4 class="daily_text_1">Monitoreos diario</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="box_main">
+                                <div class="icon_1"><img src="https://cdn-icons-png.flaticon.com/128/4398/4398979.png" class="mt-3 centered-image width="200" ></div>
+                                <h4 class="daily_text_1">Seguimiento de mejora</h4>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </div>
+         </div>
+           
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <hr/>
+
+        {% if session['role'] == 1 %}
+        <div class="table-responsive-lg pt-4">
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Lista de registros</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Email</td>
+                        <td>Fecha Registro</td>
+                        <td>Fecha Actualizacion</td>
+                        <td>Iniciar</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.date_register }}</td>
+                        <td>{{ user.date_update }}</td>
+                        <td>
+                            <a href="/monitoreo3/{{user.id_user}}" class="btn btn-outline" >Iniciar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Datos pacientes</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Altura</td>
+                        <td>Peso</td>
+                        <td>Tren superiro</td>
+                        <td>Tren inferior</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users1 %}
+                    <tr>
+                        
+                        <td>{{ user.weigth }}</td>
+                        <td>{{ user.height }}</td>
+                        <td>{{ user.tren_superior }}</td>
+                        <td>{{ user.tren_inferior }}</td>
+                        
+                     
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Datos Monitoreo Paciente</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Angulo Cervical</td>
+                        <td>Angulo Rodilla</td>
+                        <td>Angulo Lumbar</td>
+                        <td>Velocidad</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users2 %}
+                    <tr>
+                        
+                        <td>{{ user.angulo_cervical }}</td>
+                        <td>{{ user.angulo_cervical }}</td>
+                        <td>{{ user.angulo_lumbar }}</td>
+                        <td>{{ user.velocidad }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+        {% endif %}
+        {% if session['role'] == 2 %}
+        <div class="table-responsive-lg pt-4">
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Lista de registros</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Nombre</td>
+                        <td>Email</td>
+                        <td>Fecha Registro</td>
+                        <td>Fecha Actualizacion</td>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.date_register }}</td>
+                        <td>{{ user.date_update }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Datos pacientes</caption>
+                <thead class="table-dark">
+                    <tr>
+    
+                        <td>Altura</td>
+                        <td>Peso</td>
+                        <td>Tren superiro</td>
+                        <td>Tren inferior</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users1 %}
+                    <tr>
+                        
+                        <td>{{ user.weigth }}</td>
+                        <td>{{ user.height }}</td>
+                        <td>{{ user.tren_superior }}</td>
+                        <td>{{ user.tren_inferior }}</td>
+                        
+                     
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-dark table-striped caption-top">
+                <caption class="text-capitalize">Datos Monitoreo Paciente</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <td>Angulo Cervical</td>
+                        <td>Angulo Rodilla</td>
+                        <td>Angulo Lumbar</td>
+                        <td>Velocidad</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users2 %}
+                    <tr>
+                        
+                        <td>{{ user.angulo_cervical }}</td>
+                        <td>{{ user.angulo_cervical }}</td>
+                        <td>{{ user.angulo_lumbar }}</td>
+                        <td>{{ user.velocidad }}</td>
+                        
+                     
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <form action="/monitoreo3" method="POST">
+                <div class="form-group pt-5">
+                    <input type="hidden" name="id_user" value="{{ users.id_user }}"> <!-- Reemplaza user.id con el ID de la tabla 1 -->
+                    <input type="hidden" name="id_patient" value="{{ users1.id_patient }}"> <!-- Reemplaza user1.id con el ID de la tabla 2 -->
+                    <button type="submit" class="btn btn-outline-dark text-capitalize">
+                        Comenzar monitoreo
+                    </button>
+                </div>
+            </form>
+            
+        </div>
+        {% endif %}
+
+        <style>
+            .news_section {
+            width: 100%;
+            float: left;
+            padding-bottom: 90px;
+            }
+            
+            .news_section_2 {
+             width: 100%;
+            float: left;
+            }
+
+            .layout_padding {
+            padding-top: 90px;
+            padding-bottom: 0px;
+            }
+
+            .image-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .image-container img {
+                min-width: 100%;
+                object-fit: cover;
+                border-radius: 3px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                -ms-border-radius: 3px;
+                -o-border-radius: 3px;
+            }
+
+            .button-container {
+                width: 100%;
+                text-align: center;
+            }
+
+            .button-container button {
+                padding: 7px 18px;
+                border: none;
+                border-radius: 3px;
+                background: #1976d2;
+                color: #fff;
+                transition: 0.3s all ease;
+                -webkit-transition: 0.3s all ease;
+                -moz-transition: 0.3s all ease;
+                -ms-transition: 0.3s all ease;
+                -o-transition: 0.3s all ease;
+            }
+
+            .button-container button:hover {
+                background: #2780da;
+            }
+
+            .row, figure, h2 {
+            margin: 0 !important;
+            padding: 0 !important;
+            }
+
+            [class*="col-"],
+            [class^="col-"] {
+                padding: 5px;
+            }
+            .box_main {
+                width: 100%;
+                float: left;
+                background-color: #b0c4de;
+                height: auto;
+                border-radius: 18px;
+                padding: 50px;
+            }
+
+            .box_main:hover {
+                background-color: #778899;
+            }
+
+            .box_main.active {
+                background-color: #4682b4;
+            }
+            .icon_1 {
+                width: 100%;
+                float: left;
+                text-align: center;
+                padding-bottom: 20px;
+                line-height: 95px;
+            }
+        </style> 
+        
+    </div>
+</div>
+
+{% endblock %}
+

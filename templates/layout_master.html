@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
+    <title>Sportsoft</title>
+</head>
+<body>
+    <div class="fixed-top mb-4">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/general_view">Sportsoft siteweb</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav me-auto">
+
+              {% if session["username"] %}
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/login_view">Iniciar Sesion</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/view_register">Registrarse</a>
+              </li>
+              <li class="nav-item">
+              {% endif %}
+              {% if session["role"]==1 %}
+              <li class="nav-item">
+                <a class="nav-link" href="/list_users">Usuarios
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/list_employe">Empleados
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/list_patient">Pacientes
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/Calibracion">Calibracion
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/Monitoreop">Monitoreo
+                </a>
+              </li>
+              {% endif %}
+
+              {% if session["role"]==2 %}
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/list_employe">Empleados
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/list_patient">Pacientes
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/Monitoreop">Monitoreo
+                </a>
+              </li>
+              {% endif %}
+
+              {% if session["role"]==3 %}
+
+              <li class="nav-item">
+                <a class="nav-link" href="/Monitoreo">Monitoreo
+                </a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="https://www.w3schools.com/python/python_ml_getting_started.asp">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Information</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="">Python</a>
+                  <a class="dropdown-item" href="">Machine Learning</a>
+                  <a class="dropdown-item" href="">Calibracion</a>
+                </div>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-sm-2" type="search" placeholder="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+    
+    <div class="container mt-5">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    
+    <script>
+      var ctx = document.getElementById('grafica').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'],
+              datasets: [{
+                  label: 'Datos del sensor',
+                  data: [12, 19, 3, 5, 2],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+    </script>
+    <script>
+      var ctx = document.getElementById('grafica2').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+              labels: ['Rojo', 'Azul', 'Amarillo', 'Verde', 'Morado'],
+              datasets: [{
+                  label: 'Colores Favoritos',
+                  data: [12, 19, 3, 5, 2],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+    </script>    
+  </body>
+</html>
