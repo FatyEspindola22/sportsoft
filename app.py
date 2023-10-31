@@ -58,7 +58,7 @@ def login_view():
 
 @app.route('/general_view')
 def general_view():
-    return render_template('view_principal.html')
+    return render_template('index.html')
 
 @app.route('/view_register')
 def view_register():
@@ -221,144 +221,7 @@ def send_email(email, message):
 #creamos una ruta para enviar los datos al servidor
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    #acceder a los campos de texto de tu formulario
-    if request.method == 'POST':
-        full_name = request.form['full_name']
-        username = request.form['username']
-        ci = request.form['ci']
-        birthdate = request.form['birthdate']
-        email = request.form['email']
-        role = request.form['role']
-        password = request.form['password'].encode('utf-8')
-        #encriptar la contrasenha
-        #hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-
-        if re.search(r"\.com$", email):
-           
-            #conectar al servidor para enviar los datos
-            cursor = mysql.connection.cursor()
-            #consulta para registrar datos
-            cursor.execute('INSERT INTO user (full_name,username, ci,birthdate,email, role,password) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-            (full_name,username,ci,birthdate, email,role, password))
-            mysql.connection.commit()
-            
-            session['full_name'] = full_name
-            session['email'] = email 
-            flash('Su cuenta ha sido creado con exito', "info")
-            print("El correo electrónico ingresado tiene dominio .com")
-        else:
-           flash("El correo electrónico ingresado no tiene dominio .com", "info")
-           print("El correo electrónico ingresado no tiene dominio .com")
-    return redirect(url_for('users_list'))
-
-@app.route('/add_user1', methods=['POST'])
-def add_user1():
-    #acceder a los campos de texto de tu formulario
-    if request.method == 'POST':
-        full_name = request.form['full_name']
-        username = request.form['username']
-        ci = request.form['ci']
-        birthdate = request.form['birthdate']
-        email = request.form['email']
-        role = request.form['role']
-        password = request.form['password'].encode('utf-8')
-        #encriptar la contrasenha
-        #hash_password = bcrypt.hashpw(password, bcrypt.gensalt())
-
-        if re.search(r"\.com$", email):
-           
-            #conectar al servidor para enviar los datos
-            cursor = mysql.connection.cursor()
-            #consulta para registrar datos
-            cursor.execute('INSERT INTO user (full_name,username, ci,birthdate,email, role,password) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-            (full_name,username,ci,birthdate, email,role, password))
-            mysql.connection.commit()
-            
-            session['full_name'] = full_name
-            session['email'] = email 
-            flash('Su cuenta ha sido creado con exito', "info")
-            print("El correo electrónico ingresado tiene dominio .com")
-        else:
-           flash("El correo electrónico ingresado no tiene dominio .com", "info")
-           print("El correo electrónico ingresado no tiene dominio .com")
-    return redirect(url_for('view_register_patient'))
-
-
-@app.route('/add_patient', methods=['GET'])
-def add_patient():
-    if request.method == 'GET':
-        # Obtener el ID del usuario seleccionado
-        user_id_user = request.form['user_id_user']
-        weigth = request.form['weigth']
-        height = request.form['height']
-        tren_superior = request.form['trensuperior']
-        tren_inferior = request.form['treninferior']
-        
-            # Llenar los campos ocultos con el nombre y el ID del usuario seleccionado
-        #request.form['selected_user_id'] = user_id_user
-        user_id_user = request.form['user_id_user']
-            #conectar al servidor para enviar los datos
-        cursor = mysql.connection.cursor()
-            #consulta para registrar datos
-        cursor.execute('INSERT INTO patient (weigth,height, tren_superior,tren_inferior,user_id_user) VALUES (%s, %s, %s, %s, %s)',
-        (weigth,height,tren_superior,tren_inferior, user_id_user))
-        mysql.connection.commit()
-
-        flash('los datos fueron creados con exito', "info")
-
-    return redirect(url_for('register_patient'))
-
-
-@app.route('/add_employe', methods=['POST'])
-def add_employe():
-    if request.method == 'POST':
-        # Obtener el ID del usuario seleccionado
-        user_id_user = request.form['user_id_user']
-        position = request.form['position']
-        
-            # Llenar los campos ocultos con el nombre y el ID del usuario seleccionado
-        #request.form['selected_user_id'] = user_id_user
-        user_id_user = request.form['user_id_user']
-            #conectar al servidor para enviar los datos
-        cursor = mysql.connection.cursor()
-            #consulta para registrar datos
-        cursor.execute('INSERT INTO employee (position,user_id_user) VALUES (%s, %s)',
-        (position, user_id_user))
-        mysql.connection.commit()
-
-        flash('los datos fueron creados con exito', "info")
-
-    return redirect(url_for('register_employe'))
-
-@app.route('/get/<id>', methods=['GET'])
-def get_user(id):
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM user WHERE id_user = %s', (id,))
-    data = cursor.fetchall()
-    print(data)
-    return render_template('modificar_user.html', user=data[0])
-
-@app.route('/guardar_video', methods=['POST'])
-def guardar_video():
-    print("Recibiendo solicitud para guardar video")
-    user_id = request.form.get('userId')
-    video = request.files['video']
-    print(f"User ID: {user_id}")
-    print(f"Video: {video}")
-
-    if video:
-        folder_name = f"videos/user_{user_id}"
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
-        
-        video_filename = f"{folder_name}/video.mp4"
-        video.save(video_filename)
-        return 'Video guardado exitosamente'
-
-    return 'Error al guardar el video', 500
-
-@app.route('/update/<id>', methods=['POST'])
-def update_user(id):
+    
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -421,10 +284,9 @@ def logout():
 
 
 # Ruta para mostrar la página web
-@app.route('/angulos')
-def angulos():
-    
-    return redirect(url_for('users_list'))
+#@app.route('/angulos')
+#def angulos():
+ #   return redirect(url_for('users_list'))
 
 
 
